@@ -3,27 +3,31 @@ var router = express.Router();
 
 router.use((req, res, next) => {
   req.collection = req.db.collection("users");
-  next;
+  next();
 });
 
 // REGISTRARSE
 
+router.get("/",(req,res,next)=>{
+  res.send({"ok": true})
+})
+
 router.post("/signin", (req, res, next) => {
-  
+
   let user = req.body;
 
   req.collection.findOne({ username: user.username }).then(doc => {
-    if(doc) {
+    if (doc) {
       res.send({ success: false, exist: true });
-    } else{
+    } else {
       req.collection.insert(user).then(result => {
         res.send({ success: true });
       }).catch(err => {
-        res.send({ success:false });
+        res.send({ success: false });
       });
     }
   }).catch(err => {
-    res.send({ success:false });
+    res.send({ success: false });
   });
 
 });
@@ -33,11 +37,11 @@ router.post("/signin", (req, res, next) => {
 router.post("/login", (req, res, next) => {
 
   let body = req.body;
-  
+
   req.collection.findOne({ username: body.username, password: body.password }).then(doc => {
-    if(doc){
-      res.send({ success: true, user:doc });
-    }else {
+    if (doc) {
+      res.send({ success: true, user: doc });
+    } else {
       res.send({ success: false });
     }
   }).catch(err => {
