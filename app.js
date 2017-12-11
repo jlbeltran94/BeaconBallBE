@@ -14,7 +14,7 @@ var users = require('./routes/users');
 var app = express();
 
 let dbConnection;
-mongodb.connect("mongodb://localhost:27017/beaconball", (err, db) => {
+mongodb.connect("mongodb://beaconball:beaconball@ds135966.mlab.com:35966/beaconball", (err, db) => {
 
   if (err) {
     console.log("Error:" + err);
@@ -44,7 +44,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 app.use('/users', users);
 
 
